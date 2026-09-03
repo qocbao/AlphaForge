@@ -1,0 +1,2 @@
+# AlphaForge
+AlphaForge - Gomoku AI
