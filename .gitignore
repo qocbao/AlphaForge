@@ -1,2 +1,7 @@
 # Project output files
 .output/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
