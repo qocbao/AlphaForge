@@ -1,32 +1,29 @@
 import os
-from core.utils import setup_utf8
+from core.utils import SystemUtils
+from core.config import VERSION
 
-setup_utf8()
+class BannerManager:
 
-def clear_terminal():
-    os.system('cls' if os.name == 'nt' else 'clear')
+    def clear_terminal(self):
+        os.system('cls' if os.name == 'nt' else 'clear')
 
-def get_banner():
-    logo = r"""
+    def get_banner(self):
+        logo = r"""
     █████╗ ██╗     ██████╗ ██╗  ██╗ █████╗ ███████╗ ██████╗ ██████╗  ██████╗ ███████╗
    ██╔══██╗██║     ██╔══██╗██║  ██║██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝ ██╔════╝
    ███████║██║     ██████╔╝███████║███████║█████╗  ██║   ██║██████╔╝██║  ███╗█████╗
    ██╔══██║██║     ██╔═══╝ ██╔══██║██╔══██║██╔══╝  ██║   ██║██╔══██╗██║   ██║██╔══╝
    ██║  ██║███████╗██║     ██║  ██║██║  ██║██║     ╚██████╔╝██║  ██║╚██████╔╝███████╗
    ╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝      ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚══════╝
-    """
-    return logo
+        """
+        return logo
 
-def display_startup():
-    clear_terminal()
+    def display_startup(self):
+        SystemUtils.setup_utf8()
+        self.clear_terminal()
 
-    print(get_banner())
+        print(self.get_banner())
 
-    try:
-        from core.config import VERSION
-    except ImportError:
-        VERSION = "Unknow"
-
-    print(f"  Version: {VERSION} | Mode: CLI Interface")
-    print("  " + "─" * 80)
-    print("\n")
+        print(f"  Version: {VERSION} | Mode: CLI Interface")
+        print("  " + "─" * 80)
+        print("\n")
