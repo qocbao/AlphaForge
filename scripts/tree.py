@@ -1,32 +1,37 @@
+import os
 import sys
 from pathlib import Path
 
-if sys.stdout.encoding !=  "utf-8":
+if sys.stdout.encoding != 'utf-8':
     try:
         sys.stdout.reconfigure(encoding='utf-8')
     except AttributeError:
         import io
         sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-        
+
 def find_project_root():
+
     current_path = Path(__file__).resolve().parent
-    
+
     for parent in [current_path] + list(current_path.parents):
         if (parent / '.git').exists():
             return parent
-        
+
     if current_path.name == 'scripts':
         return current_path.parent
 
     return current_path
 
-def print_tree(directory, prefix="") -> None:
-    ignore_dirs = {'.git', '__pycache__', 'node_modules', '.claude', '.idea', '.vscode'}
+def generate_tree(directory, prefix="", output_list=None):
+    if output_list is None:
+        output_list = []
+
+    ignore_dirs = {'.git', '__pycache__', 'node_modules', '.claude', '.idea', '.vscode', '.output'}
 
     try:
         entries = sorted(list(Path(directory).iterdir()), key=lambda x: (x.is_file(), x.name.lower()))
     except PermissionError:
-        return
+        return output_list
 
     entries = [e for e in entries if e.name not in ignore_dirs]
 
@@ -35,14 +40,35 @@ def print_tree(directory, prefix="") -> None:
         is_last = (i == count - 1)
         connector = "└── " if is_last else "├── "
 
-        print(f"{prefix}{connector}{entry.name}")
+        line = f"{prefix}{connector}{entry.name}"
+        output_list.append(line)
 
         if entry.is_dir():
             new_prefix = prefix + ("    " if is_last else "│   ")
-            print_tree(entry, new_prefix)
-    
-if (__name__ == "__main__"):
+            generate_tree(entry, new_prefix, output_list)
+
+    return output_list
+
+if __name__ == "__main__":
     root_path = find_project_root()
-    
-    print(root_path.name + "/")
-    print_tree(root_path)
+
+    root_name = root_path.name + "/"
+
+    tree_lines = [root_name]
+    generate_tree(root_path, output_list=tree_lines)
+
+    final_output = "\n".join(tree_lines)
+
+    print(final_output)
+
+    output_dir = root_path / ".output"
+    output_dir.mkdir(exist_ok=True)
+
+    output_file = output_dir / "project_tree.txt"
+
+    try:
+        with open(output_file, "w", encoding="utf-8") as f:
+            f.write(final_output)
+        print(f"\n--- Đã lưu cấu trúc thư mục vào: {output_file.relative_to(root_path)} ---")
+    except Exception as e:
+        print(f"\n--- Lỗi khi lưu file: {e} ---")
