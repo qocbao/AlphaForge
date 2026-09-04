@@ -1,16 +1,10 @@
 import os
-import sys
 from pathlib import Path
+from core.utils import setup_utf8
 
-if sys.stdout.encoding != 'utf-8':
-    try:
-        sys.stdout.reconfigure(encoding='utf-8')
-    except AttributeError:
-        import io
-        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+setup_utf8()
 
 def find_project_root():
-
     current_path = Path(__file__).resolve().parent
 
     for parent in [current_path] + list(current_path.parents):
@@ -69,6 +63,6 @@ if __name__ == "__main__":
     try:
         with open(output_file, "w", encoding="utf-8") as f:
             f.write(final_output)
-        print(f"\n--- Đã lưu cấu trúc thư mục vào: {output_file.relative_to(root_path)} ---")
+        print(f"\n* Đã lưu cấu trúc thư mục vào: {output_file.relative_to(root_path)}")
     except Exception as e:
-        print(f"\n--- Lỗi khi lưu file: {e} ---")
+        print(f"\n* Lỗi khi lưu file: {e}")
