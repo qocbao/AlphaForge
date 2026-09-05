@@ -5,6 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Common Commands
 - Run application: `python main.py`
 - Visualize project structure: `python scripts/tree.py`
+- Collect system info: `python scripts/system_info.py`
 
 ## Architecture and Structure
 AlphaForge is a CLI-based AI research environment for Gomoku.
@@ -17,3 +18,4 @@ AlphaForge is a CLI-based AI research environment for Gomoku.
     - `banner.py`: Manages terminal clearing and the ASCII startup banner.
 - `scripts/`: Independent utility scripts.
     - `tree.py`: Tool for visualizing the project directory structure and saving it to `.output/project_tree.txt`.
+    - `system_info.py`: Tool for gathering hardware information for AI research and saving it to `.output/system_info.txt`.
