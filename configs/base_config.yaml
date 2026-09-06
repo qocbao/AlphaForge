@@ -1,0 +1,35 @@
+project:
+  name: "AlphaForge"
+  version: "v0.0.0-Genesis"
+
+game:
+  board_size: 10
+  win_length: 5
+  action_size: 100
+
+network:
+  input_channels: 2
+  num_filters: 32
+  num_res_blocks: 2
+  policy_channels: 2
+
+training:
+  lr: 0.001
+  batch_size: 32
+  train_steps: 100
+  device: "cpu"
+  num_iterations: 3
+
+selfplay:
+  games: 10
+  temp: 1.0
+  sims: 50
+
+evaluation:
+  games: 20
+  sims: 50
+  promotion_threshold: 0.55
+
+paths:
+  models_dir: "models"
+  artifacts_dir: "artifacts"

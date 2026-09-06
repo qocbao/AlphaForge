@@ -1,5 +1,12 @@
 # Project output files
 .output/
+models/
+artifacts/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
 
 # Python
 __pycache__/
